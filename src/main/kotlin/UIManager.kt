@@ -1,9 +1,33 @@
-class UIManager {
-    fun print(line: String) {
-        println()
+object UIManager {
+    fun getWelcomeMessageInput(): String {
+        val welcomeMessage = """
+            |Please choose one of the followings options by providing 1-4:
+            |   (1): Add a Product 
+            |   (2): View all product
+        """.trimMargin()
+        println(welcomeMessage)
+        return readln()
     }
 
-    fun getInput(line: Any): Any {
+    fun getProductTypeChoice(): String {
+        val productTypeMessage = """
+            |Please choose from the following product type that you want to create by providing 1-4:
+            |   (1): Add a Cheese
+            |   (2): Add a Savoury Biscuit
+            |   (3): Add a Chutney
+            |   (4): Add a Hamper
+        """.trimMargin()
+        println(productTypeMessage)
         return readln()
+    }
+
+    fun getInput(property: String, isBoolean: Boolean): Any {
+        return if (!isBoolean) {
+            println("Please enter the $property")
+            readln()
+        } else {
+            println("Is it $property, please enter true or false")
+            readln()
+        }
     }
 }

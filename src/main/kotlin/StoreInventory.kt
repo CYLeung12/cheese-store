@@ -1,3 +1,5 @@
+import model.Product
+
 class StoreInventory {
     companion object Inventory {
         val productList: MutableList<Product> = ArrayList()
@@ -6,5 +8,8 @@ class StoreInventory {
     fun addProduct(product: Product) {
         productList.add(product)
     }
+
+
+
 
 }
