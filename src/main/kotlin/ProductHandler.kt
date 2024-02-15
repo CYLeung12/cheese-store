@@ -1,11 +1,11 @@
-import model.Hampers
+import model.Cheese
+import model.CheeseBlock
+import model.Hamper
 
 class ProductHandler {
-    fun creatNewHamper() : Hampers{
-        val newHamper = Hampers(
-            name = UIManager.getInput("name", false).toString(),
-            price = UIManager.getInput("price", false).toString().toDouble()
-        )
+    fun createNewHamper(name: String, price: Double) : Hamper{
+        val newHamper = Hamper(name = name, price = price);
+
         while (true) {
             println(StoreInventory.productList)
             println("Please enter the product id that you want to end to the Hamper, or enter \"e\" to quit")
@@ -18,13 +18,21 @@ class ProductHandler {
         return newHamper
     }
 
-    fun createCheeseBlock() {
-        // TODO handle the cheese block creation
-        UIManager.getInput("Cheese Block Weight", false)
 
+    private fun Hamper.buildHamperProductList(productId: Int) {
+        this.hamperProductList.add(StoreInventory.productList[productId - 1])
     }
 
-    private fun Hampers.buildHamperProductList(productId: Int) {
-        this.hamperProductList.add(StoreInventory.productList[productId - 1])
+    fun createCheeseBlock() {
+        println(StoreInventory.productList.filterIsInstance<Cheese>())
+        val cheeseID = UIManager.getInput("ID of the Cheese for Cheese Block:", false).toString().toInt()
+        val cheese = StoreInventory.productList.filter { product -> product.id == cheeseID }.single()
+        val name = UIManager.getInput("Cheese Block Name", false).toString()
+        val weight = UIManager.getInput("Cheese Block Weight", false).toString().toDouble()
+        val cheeseBlock = CheeseBlock(
+            name = name,
+            pricePerKg = cheese.price / weight
+        )
+        println("Cheese Block has created: $cheeseBlock")
     }
 }

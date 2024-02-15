@@ -1,28 +1,31 @@
-import model.Cheeses
+import model.Cheese
 import model.Chutney
-import model.Hampers
-import model.SavouryBiscuits
+import model.SavouryBiscuit
 
 class StoreRunner {
     val storeInventory = StoreInventory()
     val productHandler = ProductHandler()
 
-
     fun mainStart() {
         while (true) {
-            val welcomeMessageInput = UIManager.getWelcomeMessageInput()
-            when (welcomeMessageInput) {
+            when (UIManager.getWelcomeMessageInput()) {
                 "1" -> createProduct()
-                "2" -> println(StoreInventory.productList)
+                "2" -> {
+                    if (StoreInventory.productList.isEmpty()) {
+                        println("Product list is empty.")
+                    } else {
+                        println(StoreInventory.productList)
+                    }
+                }
+                "3" -> break;
             }
         }
     }
 
-    fun createProduct() {
-        val productTypeChoice = UIManager.getProductTypeChoice()
-        when (productTypeChoice) {
+    private fun createProduct() {
+        when (UIManager.getProductTypeChoice()) {
             "1" -> storeInventory.addProduct(
-                Cheeses(
+                Cheese(
                     name = UIManager.getInput("name", false).toString(),
                     price = UIManager.getInput("price", false).toString().toDouble(),
                     weight = UIManager.getInput("weight", false).toString().toDouble(),
@@ -31,7 +34,7 @@ class StoreRunner {
             )
 
             "2" -> storeInventory.addProduct(
-                SavouryBiscuits(
+                SavouryBiscuit(
                     name = UIManager.getInput("name", false).toString(),
                     price = UIManager.getInput("price", false).toString().toDouble(),
                     packetSize = UIManager.getInput("packet size", false).toString().toInt()
@@ -45,11 +48,22 @@ class StoreRunner {
                     weight = UIManager.getInput("weight", false).toString().toDouble()
                 )
             )
-            "4" -> productHandler.creatNewHamper()
+            "4" -> productHandler.createNewHamper(
+                name = UIManager.getInput("name", false).toString(),
+                price = UIManager.getInput("price", false).toString().toDouble()
+            )
+            "5" -> {
+                if (StoreInventory.productList.isEmpty() || StoreInventory.productList.filterIsInstance<Cheese>()
+                        .isEmpty()
+                ) {
+                    println("There is no Cheese product. Please add at lease one Cheese product.")
+                } else {
+                    productHandler.createCheeseBlock()
+                }
+
+            }
 
         }
 
     }
-
-
 }

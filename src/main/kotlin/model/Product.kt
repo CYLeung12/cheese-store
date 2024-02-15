@@ -8,7 +8,7 @@ interface Product {
     val price: Double
 }
 
-data class Cheeses(
+data class Cheese(
     override val id: Int = StoreInventory.productList.size + 1,
     override val name: String,
     override val price: Double,
@@ -16,7 +16,7 @@ data class Cheeses(
     val isVege: Boolean
 ) : Product
 
-data class SavouryBiscuits(
+data class SavouryBiscuit(
     override val id: Int = StoreInventory.productList.size + 1,
     override val name: String,
     override val price: Double,
@@ -30,7 +30,7 @@ data class Chutney(
     val weight: Double
 ) : Product
 
-data class Hampers(
+data class Hamper(
     override val id: Int = StoreInventory.productList.size + 1,
     override val name: String,
     override val price: Double,
