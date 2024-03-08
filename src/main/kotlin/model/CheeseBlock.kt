@@ -14,5 +14,4 @@ data class CheeseBlock(
             isVege = cheese.isVege
         )
     }
-
 }

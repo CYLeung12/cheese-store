@@ -1,12 +1,26 @@
+import java.io.File
+import kotlinx.serialization.json.Json
 import model.Cheese
 import model.Chutney
+import model.Product
 import model.SavouryBiscuit
 
 class StoreRunner {
     val storeInventory = StoreInventory()
     val productHandler = ProductHandler()
 
+//    [{"type":"model.Cheese","id":1,"name":"Cgsers","price":1.0,"weight":3.0,"isVege":false}]
     fun mainStart() {
+        val productListFile = File("src/main/resources/productList.txt")
+
+        if (productListFile.readText() != "[]" || productListFile.length() == 0L) {
+            productListFile.forEachLine {
+                println(it)
+                val product = Json.decodeFromString<Product>(it)
+                StoreInventory.productList.add(product)
+            }
+        }
+
         while (true) {
             when (UIManager.getWelcomeMessageInput()) {
                 "1" -> createProduct()
@@ -17,7 +31,10 @@ class StoreRunner {
                         println(StoreInventory.productList)
                     }
                 }
-                "3" -> break;
+
+                "3" -> {
+                    break
+                }
             }
         }
     }
@@ -48,10 +65,12 @@ class StoreRunner {
                     weight = UIManager.getInput("weight", false).toString().toDouble()
                 )
             )
+
             "4" -> productHandler.createNewHamper(
                 name = UIManager.getInput("name", false).toString(),
                 price = UIManager.getInput("price", false).toString().toDouble()
             )
+
             "5" -> {
                 if (StoreInventory.productList.isEmpty() || StoreInventory.productList.filterIsInstance<Cheese>()
                         .isEmpty()
