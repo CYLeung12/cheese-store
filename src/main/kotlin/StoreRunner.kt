@@ -1,9 +1,12 @@
-import java.io.File
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonArray
 import model.Cheese
 import model.Chutney
 import model.Product
 import model.SavouryBiscuit
+import java.io.File
 
 class StoreRunner {
     val storeInventory = StoreInventory()
@@ -14,9 +17,11 @@ class StoreRunner {
         val productListFile = File("src/main/resources/productList.txt")
 
         if (productListFile.readText() != "[]" || productListFile.length() == 0L) {
-            productListFile.forEachLine {
-                println(it)
-                val product = Json.decodeFromString<Product>(it)
+            println(productListFile.readText())
+            val jsonObject = Json.parseToJsonElement(productListFile.readText())
+            jsonObject.jsonArray.forEach {
+                val objectMapper = ObjectMapper()
+                val product = objectMapper.readValue(it.toString(), Product::class.java)
                 StoreInventory.productList.add(product)
             }
         }

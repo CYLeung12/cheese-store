@@ -1,4 +1,5 @@
 import model.Cheese
+import model.Product
 
 object UIManager {
     fun getWelcomeMessageInput(): String {

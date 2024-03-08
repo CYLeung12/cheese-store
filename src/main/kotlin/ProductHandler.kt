@@ -1,9 +1,10 @@
 import model.Cheese
 import model.CheeseBlock
 import model.Hamper
+import model.Product
 
 class ProductHandler {
-    fun createNewHamper(name: String, price: Double) : Hamper{
+    fun createNewHamper(name: String, price: Double) : Hamper {
         val newHamper = Hamper(name = name, price = price);
 
         while (true) {

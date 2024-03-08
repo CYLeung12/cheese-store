@@ -1,10 +1,18 @@
 package model
 
 import StoreInventory
+import com.fasterxml.jackson.annotation.*
 import kotlinx.serialization.Serializable
 
-@Serializable
-sealed interface Product {
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes(value = [
+    JsonSubTypes.Type(Cheese::class, name = "model.Cheese"),
+    JsonSubTypes.Type(SavouryBiscuit::class, name = "model.SavouryBiscuit"),
+    JsonSubTypes.Type(Chutney::class, name = "model.Chutney"),
+    JsonSubTypes.Type(Hamper::class, name = "model.Hamper") ]
+)
+interface Product {
     val id: Int
     val name: String
     val price: Double
@@ -12,18 +20,27 @@ sealed interface Product {
 
 @Serializable
 data class Cheese(
+    @JsonProperty("id")
     override val id: Int = StoreInventory.productList.size + 1,
+    @JsonProperty("name")
     override val name: String,
+    @JsonProperty("price")
     override val price: Double,
+    @JsonProperty("weight")
     val weight: Double,
+    @JsonProperty("isVege")
     val isVege: Boolean
 ) : Product
 
 @Serializable
 data class SavouryBiscuit(
+    @JsonProperty("id")
     override val id: Int = StoreInventory.productList.size + 1,
+    @JsonProperty("name")
     override val name: String,
+    @JsonProperty("price")
     override val price: Double,
+    @JsonProperty("packetSize")
     val packetSize: Int
 ) : Product
 
